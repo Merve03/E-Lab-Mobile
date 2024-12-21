@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
-import { VStack, Input, Button, Text, Box, Heading, useToast } from 'native-base';
-import axios from 'axios';
-import Config from 'react-native-config';
+import React, { useState } from "react";
+import { View, Text, TextInput, Button } from "react-native";
+import { Snackbar } from "react-native-paper";
+import axios from "axios";
+import Constants from "expo-constants";
+
+const baseURL = Constants.expoConfig.extra.apiBaseUrl;
 
 const RegisterScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    birthDate: '',
-    password: '',
+    fullName: "",
+    email: "",
+    birthDate: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
-  const toast = useToast();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
@@ -20,74 +24,97 @@ const RegisterScreen = ({ navigation }) => {
   const handleRegister = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${Config.API_BASE_URL}api/account/register`, formData);
-      toast.show({
-        title: 'Success',
-        description: 'User registered successfully!',
-        status: 'success',
-      });
+      const response = await axios.post(`${baseURL}/account/register`, formData);
+      setSuccessMessage("User registered successfully!");
       console.log(response.data);
-      navigation.navigate('Login');
+      navigation.navigate("Login");
     } catch (error) {
-      toast.show({
-        title: 'Error',
-        description: error.response?.data?.message || 'Registration failed.',
-        status: 'error',
-      });
-      console.error('Error registering user:', error);
+      setErrorMessage(error.response?.data?.message || "Registration failed.");
+      console.error("Error registering user:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Box safeArea p="5" flex={1} justifyContent="center" bg="white">
-      <Heading size="lg" mb="6" textAlign="center">
-        Register
-      </Heading>
+    <View style={{ flex: 1, justifyContent: "center", padding: 16, backgroundColor: "white" }}>
+      <Text style={{ fontSize: 24, textAlign: "center", marginBottom: 20 }}>Register</Text>
 
-      <VStack space={4}>
-        <Input
-          placeholder="Full Name"
-          value={formData.fullName}
-          onChangeText={(value) => handleChange('fullName', value)}
-        />
+      <TextInput
+        style={{
+          height: 50,
+          borderColor: "#ccc",
+          borderWidth: 1,
+          borderRadius: 5,
+          paddingLeft: 10,
+          marginBottom: 16,
+        }}
+        placeholder="Full Name"
+        value={formData.fullName}
+        onChangeText={(value) => handleChange("fullName", value)}
+      />
 
-        <Input
-          placeholder="Email"
-          keyboardType="email-address"
-          value={formData.email}
-          onChangeText={(value) => handleChange('email', value)}
-        />
+      <TextInput
+        style={{
+          height: 50,
+          borderColor: "#ccc",
+          borderWidth: 1,
+          borderRadius: 5,
+          paddingLeft: 10,
+          marginBottom: 16,
+        }}
+        placeholder="Email"
+        keyboardType="email-address"
+        value={formData.email}
+        onChangeText={(value) => handleChange("email", value)}
+      />
 
-        <Input
-          placeholder="Birth Date (YYYY-MM-DD)"
-          value={formData.birthDate}
-          onChangeText={(value) => handleChange('birthDate', value)}
-        />
+      <TextInput
+        style={{
+          height: 50,
+          borderColor: "#ccc",
+          borderWidth: 1,
+          borderRadius: 5,
+          paddingLeft: 10,
+          marginBottom: 16,
+        }}
+        placeholder="Birth Date (YYYY-MM-DD)"
+        value={formData.birthDate}
+        onChangeText={(value) => handleChange("birthDate", value)}
+      />
 
-        <Input
-          placeholder="Password"
-          secureTextEntry
-          value={formData.password}
-          onChangeText={(value) => handleChange('password', value)}
-        />
+      <TextInput
+        style={{
+          height: 50,
+          borderColor: "#ccc",
+          borderWidth: 1,
+          borderRadius: 5,
+          paddingLeft: 10,
+          marginBottom: 16,
+        }}
+        placeholder="Password"
+        secureTextEntry
+        value={formData.password}
+        onChangeText={(value) => handleChange("password", value)}
+      />
 
-        <Button isLoading={loading} onPress={handleRegister} mt="4">
-          Register
-        </Button>
+      <Button title={loading ? "Registering..." : "Register"} onPress={handleRegister} disabled={loading} />
 
-        <Text textAlign="center" mt="4">
-          Already have an account?{' '}
-          <Text
-            color="blue.500"
-            onPress={() => navigation.navigate('Login')}
-          >
-            Login here
-          </Text>
+      <Snackbar visible={!!successMessage} onDismiss={() => setSuccessMessage("")} duration={Snackbar.DURATION_SHORT} style={{ backgroundColor: "green", marginBottom: 20 }}>
+        {successMessage}
+      </Snackbar>
+
+      <Snackbar visible={!!errorMessage} onDismiss={() => setErrorMessage("")} duration={Snackbar.DURATION_SHORT} style={{ backgroundColor: "red", marginBottom: 20 }}>
+        {errorMessage}
+      </Snackbar>
+
+      <Text style={{ textAlign: "center", marginTop: 16 }}>
+        Hesabın zaten var mı?{" "}
+        <Text style={{ color: "blue" }} onPress={() => navigation.navigate("Login")}>
+          Giriş yap
         </Text>
-      </VStack>
-    </Box>
+      </Text>
+    </View>
   );
 };
 
