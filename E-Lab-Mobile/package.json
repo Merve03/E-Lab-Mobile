@@ -1,7 +1,7 @@
 {
   "name": "e-lab-mobile",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
@@ -9,9 +9,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "axios": "^1.6.0",
     "react": "18.2.0",
-    "react-native": "0.73.0",
-    "axios": "^1.6.0"
+    "react-native": "0.73.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.0",
@@ -19,7 +19,10 @@
     "@react-native/eslint-config": "^0.73.0",
     "eslint": "^8.39.0",
     "jest": "^29.5.0",
-    "metro-react-native-babel-preset": "^0.76.0",
+    "metro": "^0.81.0",
+    "metro-config": "^0.81.0",
+    "metro-core": "^0.81.0",
+    "metro-react-native-babel-preset": "^0.76.9",
     "react-test-renderer": "18.2.0"
   },
   "author": "",
