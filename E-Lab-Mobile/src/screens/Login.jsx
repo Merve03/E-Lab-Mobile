@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
-import { VStack, Input, Button, Text, Box, Heading, useToast, Link } from 'native-base';
-import axios from 'axios';
-import Config from 'react-native-config';
+import React, { useState, useContext } from "react";
+import { View, Text, TextInput, Button } from "react-native";
+import { AuthContext } from "../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+import { Snackbar } from "react-native-paper";
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
-  const toast = useToast();
+  const [errorMessage, setErrorMessage] = useState("");
+  const { login, isAuthenticated, role } = useContext(AuthContext);
+  const navigation = useNavigation();
 
   const handleChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
@@ -18,61 +21,47 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${Config.API_BASE_URL}api/account/login`, formData);
-      toast.show({
-        title: 'Success',
-        description: 'Login successful!',
-        status: 'success',
-      });
-      console.log(response.data);
+      await login(formData); // authContext'e yolla
+
+      if (role === "Admin") {
+        // role göre kullanıcıyı yönlendir
+        navigation.navigate("AdminHome");
+      } else {
+        navigation.navigate("UserHome");
+      }
     } catch (error) {
-      toast.show({
-        title: 'Error',
-        description: error.response?.data?.message || 'Login failed.',
-        status: 'error',
-      });
-      console.error('Error logging in:', error);
+      setErrorMessage(error.response?.data?.message || "Login failed.");
+      console.error("Error logging in:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Box safeArea p="5" flex={1} justifyContent="center" bg="white">
-      <Heading size="lg" mb="6" textAlign="center">
-        Login
-      </Heading>
+    <View style={{ flex: 1, justifyContent: "center", padding: 16, backgroundColor: "white" }}>
+      <Text style={{ fontSize: 24, textAlign: "center", marginBottom: 20 }}>Login</Text>
 
-      <VStack space={4}>
-        <Input
-          placeholder="Email"
-          keyboardType="email-address"
-          value={formData.email}
-          onChangeText={(value) => handleChange('email', value)}
-        />
+      {/* Email Input */}
+      <TextInput style={{ height: 50, borderColor: "#ccc", borderWidth: 1, borderRadius: 5, paddingLeft: 10, marginBottom: 16 }} placeholder="Email" keyboardType="email-address" value={formData.email} onChangeText={(value) => handleChange("email", value)} />
 
-        <Input
-          placeholder="Password"
-          secureTextEntry
-          value={formData.password}
-          onChangeText={(value) => handleChange('password', value)}
-        />
+      {/* Password Input */}
+      <TextInput style={{ height: 50, borderColor: "#ccc", borderWidth: 1, borderRadius: 5, paddingLeft: 10, marginBottom: 16 }} placeholder="Password" secureTextEntry value={formData.password} onChangeText={(value) => handleChange("password", value)} />
 
-        <Button isLoading={loading} onPress={handleLogin} mt="4">
-          Login
-        </Button>
+      <Button title="Login" mode="contained" loading={loading} onPress={handleLogin} style={{ marginBottom: 16 }} />
 
-        <Text textAlign="center" mt="4">
-          Don't have an account?{' '}
-          <Text
-            color="blue.500"
-            onPress={() => navigation.navigate('Register')}
-          >
-            Register here
-          </Text>
+      {/* Register Link */}
+      <Text style={{ textAlign: "center" }}>
+        Don't have an account?{" "}
+        <Text style={{ color: "blue" }} onPress={() => navigation.navigate("Register")}>
+          Register here
         </Text>
-      </VStack>
-    </Box>
+      </Text>
+
+      {/* Snackbar for error messages */}
+      <Snackbar visible={!!errorMessage} onDismiss={() => setErrorMessage("")} duration={Snackbar.DURATION_SHORT} style={{ backgroundColor: "red", marginBottom: 20 }}>
+        {errorMessage}
+      </Snackbar>
+    </View>
   );
 };
 
