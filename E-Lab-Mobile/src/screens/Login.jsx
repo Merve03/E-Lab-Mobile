@@ -39,7 +39,7 @@ const LoginScreen = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", padding: 16, backgroundColor: "#f0f0f0" }}>
-      <Text style={{ fontSize: 24, textAlign: "center", marginBottom: 20 ,}}>KULLANICI GİRİŞİ</Text>
+      <Text style={{ fontSize: 24, textAlign: "center", marginBottom: 20 , fontWeight: "600"}}>KULLANICI GİRİŞİ</Text>
 
       {/* Email Input */}
       <TextInput
@@ -62,9 +62,30 @@ const LoginScreen = () => {
   onChangeText={(value) => handleChange("email", value)}
 />
       {/* Password Input */}
-      <TextInput style={{ height: 50, borderColor: "#ccc", borderWidth: 1, borderRadius: 5, paddingLeft: 10, marginBottom: 16 }} placeholder="Password" secureTextEntry value={formData.password} onChangeText={(value) => handleChange("password", value)} />
+      <TextInput
+  style={{
+    height: 50,
+    borderColor: "#0000FF",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingLeft: 10,
+    marginBottom: 16,
+    shadowColor: "#0000FF", // Gölge rengi
+    shadowOffset: { width: 0, height: 1 }, // Gölge ofseti (x, y)
+    shadowOpacity: 0.2, // Gölgenin opaklığı
+    shadowRadius: 5, // Gölgenin bulanıklığı
+    elevation: 5, // Android için gölge yüksekliği
+  }}
+  placeholder="Email"
+  keyboardType="email-address"
+  value={formData.email}
+  onChangeText={(value) => handleChange("email", value)}
+/>
 
-      <Button title="Login" mode="contained" loading={loading} onPress={handleLogin} style={{ marginBottom: 16 }} />
+ {/* login buttonu */ }
+
+ <Button title="Login" mode="contained" loading={loading} onPress={handleLogin} style={{ marginBottom: 16, backgroundColor: 'blue', borderRadius: 8 }} labelStyle={{ color: 'white' }} onPressIn={() => Animated.spring(scale, { toValue: 1.1, useNativeDriver: true }).start()} onPressOut={() => Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start()} />
+
 
       {/* Register Link */}
       <Text style={{ textAlign: "center" }}>
