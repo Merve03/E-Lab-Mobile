@@ -78,7 +78,7 @@ const LoginScreen = () => {
   }}
   placeholder="Email"
   keyboardType="email-address"
-  value={formData.email}
+  value={formData.password}
   onChangeText={(value) => handleChange("email", value)}
 />
 
