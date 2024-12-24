@@ -74,7 +74,7 @@ const RegisterScreen = ({ navigation }) => {
           height: 50,
           borderColor: "#ccc",
           borderWidth: 1,
-          borderRadius: 5,
+    
           paddingLeft: 10,
           marginBottom: 16,
         }}
