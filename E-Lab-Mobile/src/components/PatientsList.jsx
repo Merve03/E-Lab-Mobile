@@ -4,7 +4,7 @@ import { Card, Title, Paragraph } from "react-native-paper";
 
 import axiosInstance from "../utils/axiosSetup"; // API'ye bununla istek yollanacak
 
-// admin(doktor) ekranına eklenecek
+// Bu bileşen, admin (doktor) ekranına eklenecek olan hastaların listelendiği bir bileşen.
 const PatientsList = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
