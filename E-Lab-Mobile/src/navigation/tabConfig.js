@@ -1,29 +1,32 @@
+// Define the tabs for admin users
 export const adminTabs = [
   {
-    name: "Dashboard",
-    component: require("../screens/AdminDashboard").default,
-    iconName: "stats-chart-outline",
+    name: "Dashboard", // Tab name to display
+    component: require("../screens/AdminDashboard").default, // Path to the component for this tab
+    iconName: "stats-chart-outline", // Icon name for the tab
   },
   {
-    name: "List Patients",
-    component: require("../components/PatientsList").default,
-    iconName: "people-outline",
+    name: "List Patients", // Tab name to display
+    component: require("../components/PatientsList").default, // Path to the component for this tab
+    iconName: "people-outline", // Icon name for the tab
   },
   {
-    name: "Admin Profile",
-    component: require("../components/AccountDetails").default,
-    iconName: "person-outline",
+    name: "Admin Profile", // Tab name to display
+    component: require("../components/AccountDetails").default, // Path to the component for this tab
+    iconName: "person-outline", // Icon name for the tab
   },
 ];
+
+// Define the tabs for regular users
 export const userTabs = [
   {
-    name: "Home",
-    component: require("../screens/UserDashboard").default,
-    iconName: "stats-chart-outline",
+    name: "Home", // Tab name to display
+    component: require("../screens/UserDashboard").default, // Path to the component for this tab
+    iconName: "stats-chart-outline", // Icon name for the tab
   },
   {
-    name: "User Profile",
-    component: require("../components/AccountDetails").default,
-    iconName: "person-outline",
+    name: "User Profile", // Tab name to display
+    component: require("../components/AccountDetails").default, // Path to the component for this tab
+    iconName: "person-outline", // Icon name for the tab
   },
 ];
