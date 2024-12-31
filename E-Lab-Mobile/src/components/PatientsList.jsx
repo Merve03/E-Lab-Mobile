@@ -7,10 +7,22 @@ import axiosInstance from "../utils/axiosSetup"; // API'ye bununla istek yollana
 // Bu bileşen, admin (doktor) ekranına eklenecek olan hastaların listelendiği bir bileşen.
 const PatientsList = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* Using Card from react-native-paper for a styled container */}
-      <Card style={{ width: "80%", padding: 16 }}>
+    <View
+      style={{
+        flex: 1, // Bileşeni esnek bir şekilde ekranın tamamına yay
+        justifyContent: "center", // İçeriği dikey olarak ortala
+        alignItems: "center", // İçeriği yatay olarak ortala
+      }}
+    >
+      {/* react-native-paper kütüphanesinin Card bileşeni ile stil verilmiş bir kapsayıcı */}
+      <Card
+        style={{
+          width: "80%", // Kart genişliğini ekranın %80'i kadar yap
+          padding: 16, // Kartın içindeki elemanlara boşluk ekle
+        }}
+      >
         <Title>Hastalar listelenecek</Title>
+        {/* Hastalar burada listelenecek alan */}
       </Card>
     </View>
   );
